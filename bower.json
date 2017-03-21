@@ -1,0 +1,15 @@
+{
+  "name": "recorder-tool",
+  "description": "",
+  "main": "main.js",
+  "license": "MIT",
+  "homepage": "https://github.com/",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "src/vendor/",
+    "test",
+    "tests"
+  ]
+}
