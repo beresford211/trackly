@@ -1,0 +1,41 @@
+{
+  "name": "recorder-tool",
+  "version": "0.0.1",
+  "main": "common-web.js",
+  "browser": "common-web.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/beresford211/trackly.git"
+  },
+  "scripts": {
+    "start": "gulp"
+  },
+  "author": "Tim Steele",
+  "contributors": [],
+  "engines": {
+    "node": "0.10.x"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.18.8",
+    "browserify": "^14.1.0",
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
+    "gulp-concat": "^2.6.1",
+    "gulp-css2js": "^1.0.2",
+    "gulp-cssmin": "^0.1.7",
+    "gulp-html-to-js": "0.0.5",
+    "gulp-jshint": "^2.0.4",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^3.1.0",
+    "gulp-sourcemaps": "^2.4.1",
+    "gulp-uglify": "^2.0.1",
+    "gulp-watch": "^4.3.11",
+    "jshint": "^2.9.4",
+    "jshint-stylish": "^2.2.1"
+  },
+  "dependencies": {
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0"
+  },
+  "license": "ISC",
+}
