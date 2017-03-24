@@ -13,10 +13,16 @@ module.exports = (function(){
     //
     // }
   };
-  //
+
+
+
   // GrabDocument.prototype.grabDocType = function() {
   // };
   //
+
+
+
+
   return {
     GrabDocument: GrabDocument
   };

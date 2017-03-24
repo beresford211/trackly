@@ -1,10 +1,11 @@
+var utils = require("./utils.js");
 
-var MouseWatcher = function(){
+var DocumentWatcher = function(){
   this.listOfInputs = ['input', 'textarea', 'select'];
   this.inputNodes = [];
 };
 
-MouseWatcher.prototype.grabAllTags = function() {
+DocumentWatcher.prototype.grabAllTags = function() {
   var inputNodesFound = [],listOfTagsLeng = this.listOfInputs.length;
 
   for (var i = 0; i < listOfTagsLeng; i++) {
@@ -12,21 +13,38 @@ MouseWatcher.prototype.grabAllTags = function() {
   }
 };
 
-MouseWatcher.prototype.addListeners = function() {
+DocumentWatcher.prototype.bindMainEvents = function(){
+    utils.addListener(window, "resize", this.resize);
+};
+
+
+
+DocumentWatcher.prototype.addListeners = function() {
   var inputNodeLeng = this.inputNodes.length;
 
   for (var i = 0; i < inputNodeLeng; i++) {
-    // input
     // utilityfunctions.addListener
   }
 };
 
-MouseWatcher.prototype.updateScroll = function(el){
+DocumentWatcher.prototype.updateScroll = function(el){
+
+};
+
+DocumentWatcher.prototype.documentSize = function(){
+  var windowScreen = window.screen.width,
+  windowHeight = window.screen.height;
+};
+
+DocumentWatcher.prototype.resize = function(e){
 
 
 };
 
-MouseWatcher.prototype.xPath = function(el){
+
+
+
+DocumentWatcher.prototype.xPath = function(el){
   var xpath = '';
   var pos, el2;
   var posText;
@@ -45,11 +63,14 @@ MouseWatcher.prototype.xPath = function(el){
       posText = "[" + pos + "]";
     }
 
-    tempXpath = "" + el.nodeName + "" + ( el.id === null ? (pos > 0 ? posText : "" ) + "" : "[@id='" + el.id + "']" + "[" + pos + "]");
+    xpath = "" + el.nodeName + "" + ( el.id === null ? (pos > 0 ? posText : "" ) + "" : "[@id='" + el.id + "']" + "[" + pos + "]") + "/" + xpath;
 
     el = el.parentNode;
   }
-  xpath = '/*'+"[name()='"+xml.documentElement.nodeName+"' and namespace-uri()='"+(el.namespaceURI===null?'':el.namespaceURI)+"']"+'/'+xpath;
-  xpath = xpath.replace(/\/$/, '');
+console.log("what is xpath", xpath);
+  // xpath = '/*'+"[name()='"+xml.documentElement.nodeName+"' and namespace-uri()='"+(el.namespaceURI===null?'':el.namespaceURI)+"']"+'/'+xpath;
+  // xpath = xpath.replace(/\/$/, '');
   return xpath;
 };
+
+module.exports = DocumentWatcher;
