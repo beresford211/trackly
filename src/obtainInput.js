@@ -2,7 +2,7 @@ var utils = require("./utils.js");
 
 module.exports = (function(){
 
-  GrabInput = function() {
+  var GrabInput = function() {
     this.listOfInputs = ['input', 'textarea', 'select'];
     this.inputNodes = [];
   };
@@ -18,19 +18,24 @@ module.exports = (function(){
     this.inputNodes = inputNodesFound;
   };
 
-// GrabInput.prototype.extractText = function(){
-// };
-
   GrabInput.prototype.addListeners = function() {
-    var inputNodeLeng = this.inputNodes.length;
+    var inputNodeLeng = this.inputNodes.length, el;
 
     for (var i = 0; i < inputNodeLeng; i++) {
-      // input
+      el = this.inputNodes[i];
       // utilityfunctions.addListener
-      utils.addListener("key event", this.inputNodes[i]);
-
+      if(el.nodeName === "SELECT"){
+        utils.addListener("change", node);
+      } else {
+        utils.addListener("key event", node);
+      }
+      console.log("What is this?", node.nodeName);
+      // if()
     }
   };
+
+  // GrabInput.prototype.extractText = function(){
+  // };
 
   return {
     GrabInput : GrabInput

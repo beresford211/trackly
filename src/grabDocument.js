@@ -1,5 +1,6 @@
 module.exports = (function(){
-  GrabDocument = function() {
+
+  var GrabDocument = function() {
     this.docType = "";
     this.htmlStr = "";
   };
@@ -8,14 +9,14 @@ module.exports = (function(){
   GrabDocument.prototype.grabHTML = function() {
     var isDocTypeStr = typeof document.docType === "string" ? true : false;
     this.htmlStr = document.body.innerHTML;
-    if(!isDocTypeStr){
-
-    }
+    // if(!isDocTypeStr){
+    //
+    // }
   };
-
-  GrabDocument.prototype.grabDocType = function() {
-
-  };
+  //
+  // GrabDocument.prototype.grabDocType = function() {
+  // };
+  //
   return {
     GrabDocument: GrabDocument
   };

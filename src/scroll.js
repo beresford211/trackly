@@ -1,10 +1,10 @@
 
-mouseWatcher = function(){
+var MouseWatcher = function(){
   this.listOfInputs = ['input', 'textarea', 'select'];
   this.inputNodes = [];
 };
 
-mouseWatcher.prototype.grabAllTags = function() {
+MouseWatcher.prototype.grabAllTags = function() {
   var inputNodesFound = [],listOfTagsLeng = this.listOfInputs.length;
 
   for (var i = 0; i < listOfTagsLeng; i++) {
@@ -12,7 +12,7 @@ mouseWatcher.prototype.grabAllTags = function() {
   }
 };
 
-mouseWatcher.prototype.addListeners = function() {
+MouseWatcher.prototype.addListeners = function() {
   var inputNodeLeng = this.inputNodes.length;
 
   for (var i = 0; i < inputNodeLeng; i++) {
@@ -21,12 +21,12 @@ mouseWatcher.prototype.addListeners = function() {
   }
 };
 
-mouseWatcher.prototype.updateScroll = function(el){
+MouseWatcher.prototype.updateScroll = function(el){
 
 
 };
 
-mouseWatcher.prototype.xPath = function(el){
+MouseWatcher.prototype.xPath = function(el){
   var xpath = '';
   var pos, el2;
   var posText;
