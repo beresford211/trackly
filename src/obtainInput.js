@@ -1,10 +1,10 @@
 var utils = require("./utils.js");
+var data = require("./data.js");
 
-module.exports = (function(){
-
-  var GrabInput = function() {
+ var GrabInput = function() {
     this.listOfInputs = ['input', 'textarea', 'select'];
     this.inputNodes = [];
+    this.prevInputValue;
   };
 
   GrabInput.prototype.grabAllTags = function() {
@@ -25,21 +25,38 @@ module.exports = (function(){
       el = this.inputNodes[i];
       // utilityfunctions.addListener
       if(el.nodeName === "SELECT"){
-        utils.addListener("change", node);
+        utils.addListener(el, "change", this.extractChange);
       } else {
-        utils.addListener("key event", node);
+        utils.addListener(el, "keydown", this.extractText);
       }
-      console.log("What is this?", node.nodeName);
-      // if()
+    }
+    console.log("testing", utils.xPath(el));
+  };
+
+  GrabInput.prototype.extractText = function(e) {
+    var xpath = utils.xPath(e.srcElement);
+    console.log("What is e?", e);
+    if(e){
+      console.log("what is e", e);
     }
   };
 
-  // GrabInput.prototype.extractText = function(){
-  // };
-
-  return {
-    GrabInput : GrabInput
+  GrabInput.prototype.extractChange = function(event) {
+    var xpath, timeStamp = event.timeStamp, inputValue = event.target.value, extractData = {};
+    if(!this.prevInputValue || (this.prevInputValue !== inputValue)) {
+      xpath = utils.xPath(event.srcElement);
+      this.prevInputValue = inputValue;
+      extractData.timeStamp = timeStamp;
+      extractData.inputValue = inputValue;
+      extractData.xpath = xpath;
+      data.postData(extractData);
+    }
   };
 
-})();
+module.exports = GrabInput;
+
+
+
+
+
 

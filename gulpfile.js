@@ -55,7 +55,7 @@ gulp.task('browserify', function() {
       .bundle()
       .pipe(source('main.bundles.js'))
       .pipe(buffer())
-      .pipe(uglify())
+      // .pipe(uglify())
       .pipe(rename({suffix: '.min'}))
       .pipe(gulp.dest('dist'));
 });

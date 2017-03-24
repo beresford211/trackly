@@ -13,43 +13,63 @@
   //Bind dom mutations
   //Get all of the CSS for each node
 
-GrabExternalSheets = function(){
+var GrabExternalSheets = function() {
   this.imgTags = [];
   this.cssSheetsArr = [];
+  this.externalScripts = [];
+  this.localScripts = [];
 };
 
+GrabExternalSheets.prototype.getTags = function() {
+    var listofImgs = document.getElementsByTagName("img"),
+    imgUrls = [],
+    listImgLng = listofImgs.length;
 
-GrabExternalSheets.prototype.getTags = function(){
-    var listofImgs = document.getElementsByTagName("img");
-    var imgUrls = [];
-
-    var listImgLng = listofImgs.length;
-    for(var i = 0; i < listLng; i++){
-      imgUrls.push(listImgLng[i].src);
+    for(var i = 0; i < listImgLng; i++){
+      this.imgTags.push(listofImgs[i].src);
     }
-    this.imgTags.concat(imgUrls);
 };
 
-
-GrabExternalSheets.prototype.getStyleSheetsLink = function(){
-  var cssSheets = [];
-  var listofStyleSheets = document.getElementsByTagName("link");
-  var listLng = listofStyleSheets.length;
+GrabExternalSheets.prototype.getStyleSheetsLink = function() {
+  var cssSheetsArr = [],
+  listofStyleSheets = document.getElementsByTagName("link"),
+  listLng = listofStyleSheets.length;
 
   for(var i = 0; i < listLng; i++) {
+    console.log("what is it?", listofStyleSheets[i]);
     cssSheetsArr.push(listofStyleSheets[i].href);
   }
   this.cssSheetsArr.concat(cssSheetsArr);
+  console.log("What is css getStyleSheetsLink", cssSheetsArr);
 };
 
 
-GrabExternalSheets.prototype.getStyleSheetsStyle = function(){
-  var cssSheets = [];
-  var listofStyleSheets = document.getElementsByTagName("style");
-  var listLng = listofStyleSheets.length;
+GrabExternalSheets.prototype.getStyleSheetsStyle = function() {
+  var cssSheetsArr = [],
+  listofStyleSheets = document.getElementsByTagName("style"),
+  listLng = listofStyleSheets.length;
 
   for(var i = 0; i < listLng; i++) {
     cssSheetsArr.push(listofStyleSheets[i].outerHTML);
   }
   this.cssSheetsArr.concat(cssSheetsArr);
+  console.log("What is css getStyleSheetsStyle", cssSheetsArr);
 };
+
+GrabExternalSheets.prototype.getScripts = function() {
+  var scriptUrls = [],
+  listofScripts = document.getElementsByTagName("script"),
+  listScriptLng = listofScripts.length,
+  scriptData;
+
+  for(var i = 0; i < listScriptLng; i++){
+    if(listofScripts[i].src){
+      scriptData = listofScripts[i].src;
+    } else {
+      scriptData = listofScripts[i].outerHTML;
+    }
+    this.externalScripts.push(scriptData);
+  }
+};
+
+module.exports = GrabExternalSheets;
