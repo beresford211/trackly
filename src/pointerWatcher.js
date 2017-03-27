@@ -2,7 +2,7 @@ var utils = require("./utils.js");
 var storage = require("./storage.js");
 
 var PointerWatcher = function(){
-
+  // this.nodesCollected = [];
 };
 
 PointerWatcher.prototype.bindPointer = function() {
