@@ -11,7 +11,7 @@ module.exports = (function() {
       try {
         tempStorage = localStorage.getItem("trackly") || "";
         tempStorage += JSON.stringify(addData);
-        localStorage.setItem("trackly", tempStorage);
+        localStorage.setItem("trkly", tempStorage);
         this.localStorageUsed();
       } catch (e) {
 
