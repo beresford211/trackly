@@ -1,24 +1,18 @@
 var utils = require("./utils.js");
 var storage = require("./storage.js");
 
-var DocumentWatcher = function(){
+var DocumentWatcher = function () {
   this.inputNodes = [];
 };
 
-DocumentWatcher.prototype.grabHTML = function() {
-  var htmlStr, isDocTypeStr = typeof document.docType === "string" ? true : false;
-  htmlStr = document.body.innerHTML;
-  storage.addToLocalStorage(html);
-};
-
-DocumentWatcher.prototype.bindMainEvents = function() {
+DocumentWatcher.prototype.bindMainEvents = function () {
   utils.addListener(window, "resize", this.windowSize);
   utils.addListener(window, "scroll", this.updateScroll, true);
   utils.addListener(window, "click", this.clickCapture);
   utils.addListener(window, "beforeunload", utils.removeListeners);
 };
 
-DocumentWatcher.prototype.updateScroll = function(e) {
+DocumentWatcher.prototype.updateScroll = function (e) {
   var eventData = {};
 
   eventData.scrollTop = window.pageYOffset;
@@ -27,7 +21,7 @@ DocumentWatcher.prototype.updateScroll = function(e) {
   storage.addToLocalStorage(eventData);
 };
 
-DocumentWatcher.prototype.windowSize = function() {
+DocumentWatcher.prototype.windowSize = function () {
   var eventData = {};
   eventData.windowScreen = document.documentElement.clientWidth;
   eventData.windowHeight = document.documentElement.clientHeight;
@@ -35,7 +29,7 @@ DocumentWatcher.prototype.windowSize = function() {
   storage.addToLocalStorage(eventData);
 };
 
-DocumentWatcher.prototype.clickCapture = function(e){
+DocumentWatcher.prototype.clickCapture = function (e) {
   var eventData = {}, doc = e.srcElement.getBoundingClientRect();
 
   eventData.timeStamp = e.timeStamp;
