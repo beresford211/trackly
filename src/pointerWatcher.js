@@ -1,24 +1,22 @@
 var utils = require("./utils.js");
+var storage = require("./storage.js");
 
 var PointerWatcher = function(){
+
 };
 
 PointerWatcher.prototype.bindPointer = function() {
-  console.log("one", this.captureMovements);
-  utils.addListener(window.document.body, "pointermove", this.captureMovements);
+  utils.addListener(window.document.body, "pointermove", utils.throttle(this.captureMovements, 35, this));
 };
 
-PointerWatcher.prototype.captureMovements = function(e){
+PointerWatcher.prototype.captureMovements = function(e) {
   var eventData = {};
-    // utils.addListener(window, "resize", this.resize);
-    var area = e.clientX * e.clientY;
-    console.log("What is the srcElement" , e.type);
-    console.log("What is the srcElement" , e.type);
-    return e;
+    if(e.type === "pointermove") {
+      eventData.clientX = e.clientX;
+      eventData.clientY = e.clientY;
+      eventData.timeStamp = e.timeStamp;
+      storage.addToLocalStorage(eventData);
+    }
 };
-
-
-
-
 
 module.exports = PointerWatcher;
