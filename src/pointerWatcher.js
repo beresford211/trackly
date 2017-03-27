@@ -3,6 +3,7 @@ var storage = require("./storage.js");
 
 var PointerWatcher = function () {
   // this.nodesCollected = [];
+  // Originally built this when I was going to use touchevents and other mouse events.
 };
 
 PointerWatcher.prototype.bindPointer = function () {
