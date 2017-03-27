@@ -1,48 +1,42 @@
 var utils = require("./utils.js");
 var data = require("./data.js");
 
-var Storage = function() {
-  this.supportsStorage = null;
-};
+module.exports = (function() {
+  var supportsStorage = null, spaceTaken = 0, isAvailable = window.localStorage || 0;
+  supportsStorage = isAvailable !== false ? true : false;
 
-Storage.prototype.addToLocalStorage = function(addData) {
-  var trklyData, tempStorage;
+  var addToLocalStorage = function(addData) {
+    var trklyData, tempStorage;
+    if(supportsStorage) {
+      try {
+        tempStorage = localStorage.getItem("trackly") || "";
+        tempStorage += JSON.stringify(addData);
+        localStorage.setItem("trackly", tempStorage);
+        this.localStorageUsed();
+      } catch (e) {
 
-  if(this.supportsStorage) {
-    try {
-      tempStorage = localStorage.getItem("trackly") || "";
-      tempStorage += JSON.stringify(addData);
-      localStorage.setItem("trackly", tempStorage);
-    } catch (e) {
-      if (e.code == 22 || e.code == 1014) {
-        console.warn("Storage is full we need to empty it");
-        trklyData = localStorage.getItem("trkly");
-        data.postData(trklyData);
-        localStorage.removeItem("trkly");
+        if (e.code == 22 || e.code == 1014) {
+          console.warn("Storage is full we need to empty it");
+          trklyData = localStorage.getItem("trkly");
+          data.postData(trklyData);
+          localStorage.removeItem("trkly");
+        }
       }
     }
-  }
-};
+  };
 
-Storage.prototype.spaceLeft = function() {
-    var total = 0;
-    for (var x in localStorage) {
-        var amount = (localStorage[x].length * 2) / 1024 / 1024;
-        total += amount;
-    }
-    return total.toFixed(2);
-};
+  var localStorageUsed = function() {
+      var total = 0;
+      for (var x in localStorage) {
+          var amount = (localStorage[x].length * 2) / 1024 / 1024;
+          total += amount;
+      }
+      spaceTaken = total.toFixed(2);
+  };
 
-Storage.prototype.isLocaleStorageAvailable = function() {
-  var isAvailable = window.localStorage || 0;
-  if(isAvailable){
-    this.supportsStorage = true;
-  } else {
-    this.supportsStorage = false;
-  }
-  return isAvailable;
-};
+  return {
+    localStorageUsed : localStorageUsed,
+    addToLocalStorage : addToLocalStorage
+  };
 
-
-
-modules.export = Storage;
+})();
