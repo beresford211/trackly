@@ -1,49 +1,52 @@
 var storage = require("./storage.js");
+var utils = require("./utils.js");
 
 module.exports = (function () {
-    var instance, docBody = document.getElementsByTagName("body");
+  var instance, docBody = document.body;
 
-    function createInstance() {
-        var object = new new MutationObserver(function(mutations) {
-          var nodes = [];
-          storage.addToLocalStorage();
-          mutations.forEach(function(mutation) {
-            if (mutation.type === 'childList') {
-                  var count = list.children.length;
-                  list.children[count-1].innerHTML = "Element " + count + " has been injected!";
-            }
-          });
-        });
-        return object;
-     }
 
-    return {
-        getInstance: function () {
-            if (!instance) {
-                instance = createInstance();
-                instance.observe(docBody, { attributes: true, childList: true, characterData: true });
-            }
-            return instance;
-        },
-        updateInstance: function() {
+  function createInstance() {
+    var object = new MutationObserver(function (mutations) {
+      console.log("We have several mutations: ", mutations);
+      var eventData = [], event;
 
+      mutations.forEach(function (mutation) {
+        event = {};
+        event.mutationType = mutation.type;
+        event.xpath = utils.xPath(mutation.target);
+
+        if (mutation.type === 'childList') {
+          if (mutation.addedNodes.length > 0) {
+            event.addedNodes = mutation.addedNodes;
+          } else {
+            event.removedNodes = mutation.removedNodes;
+          }
         }
-    };
+        if (mutation.type === 'attributes') {
+          event.attributeName = mutation.attributeName;
+        }
+        eventData.push(event);
+      });
+
+      storage.addToLocalStorage(eventData);
+    });
+    return object;
+  }
+
+  return {
+    getInstance: function () {
+      if (!instance) {
+        instance = createInstance();
+        instance.observe(docBody, {attributes: true, childList: true, subtree: true});
+      }
+      return instance;
+    },
+    killInstance: function () {
+      instance.disconnect();
+    }
+  };
 })();
 
 
 
 
-var MutationObserver = window.MutationObserver ||
-        window.WebKitMutationObserver ||
-        window.MozMutationObserver;
-
-  var observer = new MutationObserver(function(mutations) {
-    mutations.forEach(function(mutation) {
-      if (mutation.type === 'childList') {
-            var count = list.children.length;
-          list.children[count-1].innerHTML =
-              "Element " + count + " has been injected!";
-      }
-    });
-  });

@@ -1,15 +1,15 @@
 var utils = require("./utils.js");
 var data = require("./data.js");
 
-module.exports = (function() {
+module.exports = (function () {
   var supportsStorage = null, spaceTaken = 0, isAvailable = window.localStorage || 0;
   supportsStorage = isAvailable !== false ? true : false;
 
-  var addToLocalStorage = function(addData) {
+  var addToLocalStorage = function (addData) {
     var trklyData, tempStorage;
-    if(supportsStorage) {
+    if (supportsStorage) {
       try {
-        tempStorage = localStorage.getItem("trackly") || "";
+        tempStorage = localStorage.getItem("trkly") || "";
         tempStorage += JSON.stringify(addData);
         localStorage.setItem("trkly", tempStorage);
         this.localStorageUsed();
@@ -25,18 +25,18 @@ module.exports = (function() {
     }
   };
 
-  var localStorageUsed = function() {
-      var total = 0;
-      for (var x in localStorage) {
-          var amount = (localStorage[x].length * 2) / 1024 / 1024;
-          total += amount;
-      }
-      spaceTaken = total.toFixed(2);
+  var localStorageUsed = function () {
+    var total = 0;
+    for (var x in localStorage) {
+      var amount = (localStorage[x].length * 2) / 1024 / 1024;
+      total += amount;
+    }
+    spaceTaken = total.toFixed(2);
   };
 
   return {
-    localStorageUsed : localStorageUsed,
-    addToLocalStorage : addToLocalStorage
+    localStorageUsed: localStorageUsed,
+    addToLocalStorage: addToLocalStorage
   };
 
 })();
