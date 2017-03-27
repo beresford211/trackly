@@ -2,7 +2,7 @@ module.exports = (function(){
 
   var polyBind = function(func, context) {
     var arr = Array.prototype.slice.call(arguments, 2);
-    
+
     return function() {
       var args = Array.prototype.slice.call(arguments);
       var fin = arr.concat(args);
@@ -23,12 +23,12 @@ module.exports = (function(){
     node.addEventListener(eventName, result);
   };
 
-  var addListenerByTag = function(eventName, id, result) {
+  var addListenerByTag = function(eventName, tag, result) {
     if(!tag){
       console.log("No tag was added in addListenerByTag, Tag is :",tag);
       return;
     }
-    var node = document.getElementById(id);
+    var node = document.getElementById(tag);
     node.addEventListener(eventName, result);
   };
 
@@ -36,7 +36,6 @@ module.exports = (function(){
     var xpath = '';
     var pos, el2, posText, flag;
     while(el) {
-      console.log("waht is the el id", el.id);
       pos = 0;
       el2 = el;
       flag = false;
@@ -48,7 +47,6 @@ module.exports = (function(){
         el2 = el2.previousSibling;
       }
       posText = pos > 0 ? "[" + pos + "]" : "";
-      console.log("waht is el", el, el.id);
       if(el){
         xpath = "" + el.nodeName + "" + ( el.id !== true ? posText + "" : "[@id='" + el.id + "']" + posText) + "/" + xpath;
       }

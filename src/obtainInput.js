@@ -1,13 +1,14 @@
 var utils = require("./utils.js");
 var data = require("./data.js");
+var storage = require("./storage.js");
 
  var GrabInput = function() {
-    this.listOfInputs = ['input', 'textarea', 'select'];
     this.inputNodes = [];
-    this.prevInputValue;
+    this.prevInputValue = null;
+    this.prevOption = null;
   };
 
-  GrabInput.prototype.grabAllTags = function() {
+ GrabInput.prototype.grabAllTags = function() {
     var listOfInputs = ['input', 'textarea', 'select'], inputNodesFound = [], listOfTagsLeng = listOfInputs.length, node;
 
     for (var i = 0; i < listOfTagsLeng; i++) {
@@ -16,42 +17,45 @@ var data = require("./data.js");
       inputNodesFound = inputNodesFound.concat(node);
     }
     this.inputNodes = inputNodesFound;
-  };
+ };
 
-  GrabInput.prototype.addListeners = function() {
+ GrabInput.prototype.addListeners = function() {
     var inputNodeLeng = this.inputNodes.length, el;
 
     for (var i = 0; i < inputNodeLeng; i++) {
       el = this.inputNodes[i];
-      // utilityfunctions.addListener
-      if(el.nodeName === "SELECT"){
+      if(el.nodeName === "SELECT") {
         utils.addListener(el, "change", this.extractChange);
       } else {
         utils.addListener(el, "keydown", this.extractText);
       }
     }
     console.log("testing", utils.xPath(el));
-  };
+ };
 
-  GrabInput.prototype.extractText = function(e) {
-    var xpath = utils.xPath(e.srcElement);
-    console.log("What is e?", e);
-    if(e){
-      console.log("what is e", e);
+ GrabInput.prototype.extractChange = function(e) {
+    var option = e.target.value, timeStamp = e.timeStamp, extractData = {};
+
+    if(option !== this.prevOption) {
+      extractData.option = option;
+      extractData.timeStamp = timeStamp;
+      extractData.xpath = utils.xPath(e.srcElement);
     }
-  };
 
-  GrabInput.prototype.extractChange = function(event) {
-    var xpath, timeStamp = event.timeStamp, inputValue = event.target.value, extractData = {};
+    this.prevOption = option;
+ };
+
+ GrabInput.prototype.extractText = function(event) {
+  var inputValue = event.target.value, timeStamp = event.timeStamp, extractData = {};
     if(!this.prevInputValue || (this.prevInputValue !== inputValue)) {
-      xpath = utils.xPath(event.srcElement);
-      this.prevInputValue = inputValue;
       extractData.timeStamp = timeStamp;
       extractData.inputValue = inputValue;
-      extractData.xpath = xpath;
+      extractData.xpath = utils.xPath(event.srcElement);
       data.postData(extractData);
     }
-  };
+    this.prevInputValue = inputValue;
+    storage.addToLocalStorage(extractData);
+ };
 
 module.exports = GrabInput;
 
