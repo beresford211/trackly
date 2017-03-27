@@ -14,7 +14,7 @@ module.exports = (function() {
         localStorage.setItem("trkly", tempStorage);
         this.localStorageUsed();
       } catch (e) {
-
+        // browser throws a 22 or 1014 error when local storage is full
         if (e.code == 22 || e.code == 1014) {
           console.warn("Storage is full we need to empty it");
           trklyData = localStorage.getItem("trkly");
