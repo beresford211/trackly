@@ -24,9 +24,6 @@ module.exports = (function () {
                 instance.observe(docBody, { attributes: true, childList: true, characterData: true });
             }
             return instance;
-        },
-        updateInstance: function() {
-
         }
     };
 })();
@@ -34,16 +31,3 @@ module.exports = (function () {
 
 
 
-var MutationObserver = window.MutationObserver ||
-        window.WebKitMutationObserver ||
-        window.MozMutationObserver;
-
-  var observer = new MutationObserver(function(mutations) {
-    mutations.forEach(function(mutation) {
-      if (mutation.type === 'childList') {
-            var count = list.children.length;
-          list.children[count-1].innerHTML =
-              "Element " + count + " has been injected!";
-      }
-    });
-  });

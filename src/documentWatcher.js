@@ -6,9 +6,9 @@ var DocumentWatcher = function(){
 };
 
 DocumentWatcher.prototype.grabHTML = function() {
-  var isDocTypeStr = typeof document.docType === "string" ? true : false;
-  this.htmlStr = document.body.innerHTML;
-
+  var htmlStr, isDocTypeStr = typeof document.docType === "string" ? true : false;
+  htmlStr = document.body.innerHTML;
+  storage.addToLocalStorage(html);
 };
 
 DocumentWatcher.prototype.bindMainEvents = function() {
@@ -29,7 +29,6 @@ DocumentWatcher.prototype.updateScroll = function(e) {
 
 DocumentWatcher.prototype.windowSize = function() {
   var eventData = {};
-
   eventData.windowScreen = document.documentElement.clientWidth;
   eventData.windowHeight = document.documentElement.clientHeight;
   eventData.windowSizeTime = Math.floor(Date.now() / 1000);
@@ -41,7 +40,7 @@ DocumentWatcher.prototype.clickCapture = function(e){
 
   eventData.timeStamp = e.timeStamp;
   eventData.xCoordinate = doc.left + e.pageXOffset;
-  eventData.xpath = this.xPath(e.target.activeElement);
+  eventData.xpath = this.xPath(e.target);
   eventData.yCoordinate = doc.top + e.pageYOffset;
   storage.addToLocalStorage(eventData);
 };

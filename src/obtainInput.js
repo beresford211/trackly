@@ -30,27 +30,27 @@ var storage = require("./storage.js");
         utils.addListener(el, "keydown", this.extractText);
       }
     }
-    console.log("testing", utils.xPath(el));
  };
 
  GrabInput.prototype.extractChange = function(e) {
+   console.log("what is e", e);
     var option = e.target.value, timeStamp = e.timeStamp, extractData = {};
 
     if(option !== this.prevOption) {
       extractData.option = option;
       extractData.timeStamp = timeStamp;
-      extractData.xpath = utils.xPath(e.srcElement);
+      extractData.xpath = utils.xPath(e.target);
     }
-
     this.prevOption = option;
  };
 
- GrabInput.prototype.extractText = function(event) {
-  var inputValue = event.target.value, timeStamp = event.timeStamp, extractData = {};
+ GrabInput.prototype.extractText = function(e) {
+  var inputValue = e.key, timeStamp = e.timeStamp, extractData = {};
+
     if(!this.prevInputValue || (this.prevInputValue !== inputValue)) {
       extractData.timeStamp = timeStamp;
       extractData.inputValue = inputValue;
-      extractData.xpath = utils.xPath(event.srcElement);
+      extractData.xpath = utils.xPath(e.target);
       data.postData(extractData);
     }
     this.prevInputValue = inputValue;
