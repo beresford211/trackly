@@ -1,20 +1,20 @@
 var storage = require("./storage.js");
 
-var GrabExternalSheets = function () {
+var GrabExtSheets = function () {
   this.imgTags = [];
   this.cssSheetsArr = [];
-  this.externalScripts = [];
+  this.extScripts = [];
   this.localScripts = [];
 };
 
-GrabExternalSheets.prototype.grabHTML = function () {
+GrabExtSheets.prototype.grabHTML = function () {
   var htmlStr, isDocTypeStr = typeof document.docType === "string" ? true : false;
   htmlStr = document.body.innerHTML;
   storage.addToLocalStorage(htmlStr);
 };
 
 
-GrabExternalSheets.prototype.getTags = function () {
+GrabExtSheets.prototype.getTags = function () {
   var listofImgs = document.getElementsByTagName("img"),
     listImgLng = listofImgs.length;
 
@@ -23,13 +23,12 @@ GrabExternalSheets.prototype.getTags = function () {
   }
 };
 
-GrabExternalSheets.prototype.getStyleSheetsLink = function () {
+GrabExtSheets.prototype.getStyleSheetsLink = function () {
   var cssSheetsArr = [],
     listofStyleSheets = document.getElementsByTagName("link"),
     listLng = listofStyleSheets.length;
 
   for (var i = 0; i < listLng; i++) {
-    console.log("what is it?", listofStyleSheets[i]);
     cssSheetsArr.push(listofStyleSheets[i].href);
   }
   this.cssSheetsArr.concat(cssSheetsArr);
@@ -37,7 +36,7 @@ GrabExternalSheets.prototype.getStyleSheetsLink = function () {
 };
 
 
-GrabExternalSheets.prototype.getStyleSheetsStyle = function () {
+GrabExtSheets.prototype.getStyleSheetsStyle = function () {
   var cssSheetsArr = [],
     listofStyleSheets = document.getElementsByTagName("style"),
     listLng = listofStyleSheets.length;
@@ -48,7 +47,7 @@ GrabExternalSheets.prototype.getStyleSheetsStyle = function () {
   this.cssSheetsArr.concat(cssSheetsArr);
 };
 
-GrabExternalSheets.prototype.getScripts = function () {
+GrabExtSheets.prototype.getScripts = function () {
   var scriptUrls = [],
     listofScripts = document.getElementsByTagName("script"),
     listScriptLng = listofScripts.length,
@@ -60,7 +59,7 @@ GrabExternalSheets.prototype.getScripts = function () {
     } else {
       scriptData = listofScripts[i].outerHTML;
     }
-    this.externalScripts.push(scriptData);
+    this.extScripts.push(scriptData);
   }
 };
 
